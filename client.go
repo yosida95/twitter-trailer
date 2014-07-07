@@ -119,12 +119,12 @@ func (client *Client) connect(method, endpoint string, form url.Values) (resp *h
 			endpoint,
 			form)
 	default:
-		err = Errorf("Unsupported HTTP Method:", method)
+		err = errorf("Unsupported HTTP Method:", method)
 	}
 
 	if err == nil && resp.StatusCode != 200 {
 		resp.Body.Close()
-		err = Errorf(resp.Status)
+		err = errorf(resp.Status)
 	}
 
 	return

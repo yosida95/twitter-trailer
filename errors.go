@@ -8,7 +8,7 @@ type TrailerError struct {
 	str string
 }
 
-func Errorf(format string, a ...interface{}) error {
+func errorf(format string, a ...interface{}) *TrailerError {
 	return &TrailerError{
 		str: fmt.Sprintf(format, a...),
 	}
