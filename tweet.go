@@ -3,8 +3,9 @@ package trailer
 type Tweet struct {
 	Id uint64 `json:"id"`
 
-	Favorited bool `json:"favorited"`
-	Retweeted bool `json:"retweeted"`
+	Favorited       bool   `json:"favorited"`
+	Retweeted       bool   `json:"retweeted"`
+	RetweetedStatus *Tweet `json:"retweeted_status"`
 
 	RetweetCount   uint `json:"retweet_count"`
 	FavoritesCount uint `json:"favourites_count"`
