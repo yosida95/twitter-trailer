@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strings"
 
 	"github.com/garyburd/go-oauth/oauth"
 )
@@ -181,6 +182,31 @@ func (client *Client) Sample(handler Handler, numGoroutine int) (err error) {
 	)
 
 	resp, err := client.connect(METHOD, ENDPOINT, nil)
+	if err != nil {
+		return
+	}
+
+	return client.handleStream(resp, handler, numGoroutine)
+}
+
+func (client *Client) Filter(follow []string, track []string, locations []string, handler Handler, numGoroutine int) (err error) {
+	const (
+		METHOD   = "POST"
+		ENDPOINT = "https://stream.twitter.com/1.1/statuses/filter.json"
+	)
+
+	form := url.Values{}
+	if follow != nil {
+		form.Add("follow", strings.Join(follow, ","))
+	}
+	if track != nil {
+		form.Add("track", strings.Join(track, ","))
+	}
+	if locations != nil {
+		form.Add("locations", strings.Join(locations, ","))
+	}
+
+	resp, err := client.connect(METHOD, ENDPOINT, form)
 	if err != nil {
 		return
 	}
